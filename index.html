@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farm Decision Helper</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="header">
+        <div>
+          <h1> Farm Decision Helper</h1>
+          <p class="subtitle"">Quick runoff + leaching risk estimates with practical next steps.</p>
+        </div>
+
+        <div class="header-actions">
+          <button id="themeToggle" class="btn btn-ghost" type="button" aria-pressed="false">
+            Toggle theme
+          </button>
+          <button id="resetBtn" class="bnt btn-ghost" type="button">
+            Reset
+          </button>
+        </div>
+      </header>
+
+      <main class="grid">
+        <!-- Section disctintifies meaningful chunks of content -->
+        <section class="card"> 
+          <h2>Inputs</h2> 
+
+          <form id="farmForm" class="form" novalidate>
+          <!-- Form is a container which groups user inputs so that can be submitted/read by javascript -->
+          <!-- Novaliate turns off automatic HTML validation (eg. pop up "please fill out this field") -->
+          <!-- Field is a warpped for label and input for easier stlying and modularity -->
+          <!-- Label describes what the input is for and associates text with an input. Name tag for a specific form control -->
+          <!-- Select creates a dropdown menu; option outlines the dropdown choices -->
+            <div class="field">
+              <label for="crop">Crop</label>
+              <select id="crop" name="crop">
+                <option value="corn">Corn</option>
+                <option value="soy">Soy</option>
+                <option value="vegetables">vegetables</option>
+                <option value="orchard">Orchard</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="acres">Acres</label>
+              <input id="acres" name="acres" type="number" min="0" step="0.1" value="10" />
+              <p class="hint">Used for messages only (risk scores are per-field conditions).</p>
+            </div>
+
+            <div class="field">
+              <label for="soil">Soil type</label>
+              <select id="soil" name="soil">
+                <option value="sand">Sand</option>
+                <option value="loam" selected>Loam</option>
+                <option value="clay">Clay</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="slope">Slope</label>
+              <select id="slope" name="slope">
+                <option value="flat">Flat</option>
+                <option value="gentle" selected>Gentle</option>
+                <option value="steep">Steep</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="rain">Rain forecast (next 7 days)</label>
+              <select id="rain" name="rain">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+
+            <!-- Span is a generic inline container used to style or target part of a text... inline version of div -->
+            <div class="field">
+              <label for="nRate"Nitrogen applied (lb/acre)> <span class="muted">(optional)</span></label>
+              <input id="nRate" name="nRate" type="number" min="0" step="1" placeholder="e.g., 120" />
+            </div>
+
+            <div class="field">
+              <label for="irrigation">Irrigation Intensity <span class="muted">(optional)</span></label>
+              <select id="irrigation" name="irrigation">
+                <option value="none" selected>None</option>
+                <option value="light">Light</option>
+                <option value="medium">Medium</option>
+                <option value="heavy">Heavy</option>
+              </select>
+            </div>
+
+            <div class="row">
+              <button class="btn btn-primary" type="submit">Update results</button>
+              <p class="muted small">Auto-saves as you change inouts.</p>
+            </div>
+            
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Results</h2>
+
+          <div class="results">
+            <div class="metric">
+              <div class="metric-top">
+                <h3>Runoff risk</h3>
+                <span id="runoffLabel" class="pill">-</span>
+              </div>
+              <div class="big">
+                <span id="runoffScore">0</span><span class="muted">/100</span>
+              </div>
+              <div class="bar" aria-hidden="true">
+                <div id="runoffBar" class="bar-fill" style="width: 0%"></div>
+              </div>
+              <p id="runoffWhy" class="why">-</p>
+            </div>
+
+            <div class="metric">
+              <div class="metric-top">
+                <h3>Leaching risk</h3>
+                <span id="leachLabel" class="pill">-</span>
+              </div>
+              <div class ="big">
+                <span id="leachScore">0</span><span class="muted">/100</span>
+              </div>
+              <div class="bar" aria-hidden="true">
+                <div id="leachBar" class="bar-fill" style="width: 0%"></div>
+              </div>
+              <p id="leachWhy" class="why">-</p>
+            </div>
+
+            <div class="metric">
+              <div class="metric-top">
+                <h3>What to do next</h3>
+              </div>
+              <ul id="actions" class="actions"></ul>
+              <p id="note" class="note"></p>
+            </div>
+          </div>
+
+          <footer class="footer">
+            <p class="muted small">
+              Not agronomic advice, just simple decision helper for preliminary reasoning and learning
+          </footer>
+        </section>
+      </main>
+    </div>
+
+    <!-- this is where the "document." etc. is linked in ts -->
+    <script type="module" src="/src/main.ts"></script> 
+  </body>
+</html>
